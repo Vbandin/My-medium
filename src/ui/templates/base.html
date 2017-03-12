@@ -8,6 +8,8 @@
 
     <a href="{% url 'posts_list' %}" title="Home"><h3>My Medium</h3></a>
     <hr>
+    <a href="{% url 'posts_list' %}?filter=authored"" title="Mis Posts">Mis Posts</a>
+    <hr>
     {% block content %}{% endblock %}
     <hr>
     <a href="{% url 'posts_list' %}" title="Home"><strong>My Medium ®</strong></a> All rights reserved.

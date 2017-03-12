@@ -14,6 +14,9 @@ def posts_list(request):
     """
     posts = Post.objects.all()
 
+    if request.GET.get('filter') == 'authored':
+        posts = posts.filter(author=request.user)
+
     context = {
         'post_objects': posts
     }
@@ -39,6 +42,20 @@ def post_detail(request, post_pk):
     }
 
     return render(request, 'blog/detail.html', context)
+
+def authors_list(request):
+    """
+    Recupera todos los blogs de la base de datos y los pinta
+    :param request: HttpRequest
+    :return: HttpResponse
+    """
+    authors = Post.objects.select_related("author").all()
+    posts = posts.filter(author=request.user)
+    context = {
+        'authors_objects': author
+    }
+
+    return render(request, 'blog/blogs.html', context)
 
 def author_posts(request, author_id):
     """
