@@ -3,6 +3,8 @@ from django.http import request
 from django.shortcuts import render, redirect
 from django.views import View
 
+from users.forms import LoginForm
+
 
 class LoginView(View):
 
@@ -12,7 +14,9 @@ class LoginView(View):
         :param request: HttpRequest
         :return: HttpResponse
         """
-        context = dict()
+        context = {
+            'form': LoginForm()
+        }
         return render(request, 'login.html', context)
 
 
@@ -22,17 +26,20 @@ class LoginView(View):
         :param request: HttpRequest
         :return: HttpResponse
         """
+        form = LoginForm(request.POST)
         context = dict()
-        username = request.POST.get("usr")
-        password = request.POST.get("pwd")
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            request.session["default-language"] = "es"
-            django_login(request, user)
-            url = request.GET.get('next', 'posts_list')
-            return redirect(url)
-        else:
-            context["error"] = "Wrong username or password"
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                request.session["default-language"] = "es"
+                django_login(request, user)
+                url = request.GET.get('next', 'posts_list')
+                return redirect(url)
+            else:
+                context["error"] = "Wrong username or password"
+        context["form"] = form
         return render(request, 'login.html', context)
 
 def logout(request):
