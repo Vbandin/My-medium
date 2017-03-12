@@ -1,8 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views import View
 
 import blog
+from blog.forms import PostForm
 from blog.models import Post
 
 
@@ -44,41 +49,44 @@ def post_detail(request, post_pk):
 
     return render(request, 'blog/detail.html', context)
 
+class NewPostView(View):
 
-def authors_list(request):
-    """
-    Recupera todos los blogs de la base de datos y los pinta
-    :param request: HttpRequest
-    :return: HttpResponse
-    """
-    authors = Post.objects.select_related("author").all()
-    posts = posts.filter(author=request.user)
-    context = {
-        'authors_objects': author
-    }
+    @method_decorator(login_required)
+    def get(self, request):
+        # crear el formulario
+        form = PostForm()
 
-    return render(request, 'blog/blogs.html', context)
+        # renderiza la plantilla con el formulario
+        context = {
+            "form": form
+        }
+        return render(request, 'blog/new.html', context)
 
+    @method_decorator(login_required)
+    def post(self, request):
+        # crear el formulario con los datos del POST
+        post_with_user = Post(author=request.user)
+        form = PostForm(request.POST, instance=post_with_user)
 
-def author_posts(request, author_id):
-    """
-    Recupera de la base de datos todos los posts del mismo autor
-    :param request: HttpRequest
-    :param author: Identifica al autor para recuperar sus posts
-    :return: HttpResponse
-    """
-    try:
-        author = Post.objects.get(username)
-    except Post.author.DoesNotExist:
-        return HttpResponseNotFound("El autor que buscas aún no ha escrito nada.")
-    except Post.MultipleObjectsReturned:
-        return HttpResponse("Existen varios autores con este identificador", status=300)
+        # validar el formulario
+        if form.is_valid():
+            # crear la tarea
+            post = form.save()
 
-    context = {
-        'author_posts': author
-    }
+            # mostrar mensaje de exito
+            message = 'Tarea creada con éxito! <a href="{0}">Ver tarea</a>'.format(
+                reverse('post_detail', args=[post.pk])  # genera la URL de detalle de esta tarea
+            )
 
-    return render(request, 'blog/author.html', context)
+            # limpiamos el formulario creando uno vacío para pasar a la plantilla
+            form = PostForm()
+        else:
+            # mostrar mensaje de error
+            message = "Se ha producido un error"
 
-
-
+        # renderizar la plantilla
+        context = {
+            "form": form,
+            "message": message
+        }
+        return render(request, 'blog/new.html', context)
