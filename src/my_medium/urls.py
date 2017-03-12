@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from blog.views import posts_list, post_detail
+from blog.views import posts_list, post_detail, author_posts
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', posts_list, name="posts_list"),
-    url(r'^post/(?P<post_pk>[0-9]+)$', post_detail, name="post_detail")
+    url(r'^post/(?P<post_pk>[0-9]+)$', post_detail, name="post_detail"),
+    url(r'^author/', author_posts, name="post_author")
 ]

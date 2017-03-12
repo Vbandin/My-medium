@@ -39,3 +39,23 @@ def post_detail(request, post_pk):
     }
 
     return render(request, 'blog/detail.html', context)
+
+def author_posts(request, author_id):
+    """
+    Recupera de la base de datos todos los posts del mismo autor
+    :param request: HttpRequest
+    :param author: Identifica al autor para recuperar sus posts
+    :return: HttpResponse
+    """
+    try:
+        author = Post.objects.get(author=author_id)
+    except Post.author.DoesNotExist:
+        return HttpResponseNotFound("El autor que buscas aún no ha escrito nada.")
+    except Post.MultipleObjectsReturned:
+        return HttpResponse("Existen varios autores con este identificador", status=300)
+
+    context = {
+        'author_posts': author
+    }
+
+    return render(request, 'blog/author.html', context)

@@ -1,28 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <table width="100%" border="1" cellpadding="10" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Post</th>
-                <th>Author</th>
-                <th>Description</th>
-                <th>Created</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for post in post_objects %}
-                <tr>
-                    <td>
-                        <a href="{% url 'post_detail' post.pk %}" title="View {{ post.title }}">
-                            {{ post.title }}
-                        </a>
-                    </td>
-                    <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
-                    <td>{{ post.description }}</td>
-                    <td>{{ post.created_at }}</td>
-                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+{% for post in post_objects %}
+    <a href="{% url 'post_detail' post.pk %}" title="View {{ post.title }}">
+        <h2>{{ post.title }}</h2>
+    </a>
+    <img src="{{ post.img_url }}" alt="{{ post.img_description }}">
+    <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+    <h4>{{ post.created_at }}</h4>
+    <p>{{ post.description }}</p>
+
+{% endfor %}
+
 {% endblock %}

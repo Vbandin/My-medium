@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table width="100%" border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Post</th>
+                <th>Author</th>
+                <th>Description</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in post_objects %}
+                <tr>
+                    <td>
+                        <a href="{% url 'post_author' post.author %}" title="View {{ post.title }}">
+                            {{ post.title }}
+                        </a>
+                    </td>
+                    <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
+                    <td>{{ post.description }}</td>
+                    <td>{{ post.created_at }}</td>
+                 </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

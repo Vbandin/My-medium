@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %} {{ task.name }} {% endblock %}
+{% block title %} {{ post.title }} {% endblock %}
 
 {% block content %}
     <h1>{{ post.title }}</h1>
-    <p>{{ post.description }}</p>
-    <ul>
-        <li>
-            <strong>Autor:</strong>
-            {{ post.author.first_name }} {{ post.author.last_name }}
-        </li>
-    </ul>
+    <img src="{{ post.img_url }}" alt="{{ post.img_description }}">
+    <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+    <h4>{{ post.created_at }}</h4>
+    <h2>{{ post.description }}</h2>
+    <p>{{ post.content }}</p>
 {% endblock %}

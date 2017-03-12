@@ -6,14 +6,11 @@
 </head>
 <body>
 
-    <h1>My Medium</h1>
-    <hr>
-    <a href="{% url 'posts_list' %}" title="Home">Home</a>
-
+    <a href="{% url 'posts_list' %}" title="Home"><h3>My Medium</h3></a>
     <hr>
     {% block content %}{% endblock %}
     <hr>
-    My Medium &copy; All rights reserved.
+    <a href="{% url 'posts_list' %}" title="Home"><strong>My Medium ®</strong></a> All rights reserved.
 
 </body>
 </html>
