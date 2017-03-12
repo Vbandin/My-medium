@@ -17,11 +17,14 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from blog.views import posts_list, post_detail, author_posts, authors_list
+from users.views import login, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', posts_list, name="posts_list"),
     url(r'^post/(?P<post_pk>[0-9]+)$', post_detail, name="post_detail"),
     url(r'^blogs/', authors_list, name="authors_list"),
-    url(r'^author/', author_posts, name="post_author")
+    url(r'^author/', author_posts, name="post_author"),
+    url(r'^login$', login, name="login"),
+    url(r'^logout$', logout, name="logout")
 ]

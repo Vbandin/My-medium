@@ -23,6 +23,7 @@ def posts_list(request):
 
     return render(request, 'blog/home.html', context)
 
+
 def post_detail(request, post_pk):
     """
     Recupera el detalle de un post de la base de datos
@@ -43,6 +44,7 @@ def post_detail(request, post_pk):
 
     return render(request, 'blog/detail.html', context)
 
+
 def authors_list(request):
     """
     Recupera todos los blogs de la base de datos y los pinta
@@ -57,6 +59,7 @@ def authors_list(request):
 
     return render(request, 'blog/blogs.html', context)
 
+
 def author_posts(request, author_id):
     """
     Recupera de la base de datos todos los posts del mismo autor
@@ -65,7 +68,7 @@ def author_posts(request, author_id):
     :return: HttpResponse
     """
     try:
-        author = Post.objects.get(author=author_id)
+        author = Post.objects.get(username)
     except Post.author.DoesNotExist:
         return HttpResponseNotFound("El autor que buscas aún no ha escrito nada.")
     except Post.MultipleObjectsReturned:
@@ -76,3 +79,6 @@ def author_posts(request, author_id):
     }
 
     return render(request, 'blog/author.html', context)
+
+
+
