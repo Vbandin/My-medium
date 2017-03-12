@@ -11,14 +11,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for post in posts_objects %}
+            {% for post in post_objects %}
                 <tr>
                     <td>
-                        <a href="{% url 'posts_detail' post.pk %}" title="View {{ post.title }}">
+                        <a href="{% url 'post_detail' post.pk %}" title="View {{ post.title }}">
                             {{ post.title }}
                         </a>
                     </td>
                     <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
+                    <td>{{ post.description }}</td>
+                    <td>{{ post.created_at }}</td>
                  </tr>
             {% endfor %}
         </tbody>

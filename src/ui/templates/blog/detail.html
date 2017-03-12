@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ task.name }} {% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.description }}</p>
+    <ul>
+        <li>
+            <strong>Autor:</strong>
+            {{ post.author.first_name }} {{ post.author.last_name }}
+        </li>
+    </ul>
+{% endblock %}
