@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -39,7 +40,7 @@ def post_detail(request, post_pk):
     try:
         post = Post.objects.get(pk=post_pk)
     except Post.DoesNotExist:
-        return HttpResponseNotFound("El post que buscas no existe.")
+        return render(request, '404.html', {}, status=404)
     except Post.MultipleObjectsReturned:
         return HttpResponse("Existen varios posts con este identificador", status=300)
 
@@ -90,3 +91,33 @@ class NewPostView(View):
             "message": message
         }
         return render(request, 'blog/new.html', context)
+
+def author_blog(request, username):
+    """
+    Creo las urls de perfil de usuario/blog
+    :param request: HttpRequest
+    :param username: username del propietario del blog
+    :param author: recupera el autor de la base de datos para filtrar los posts
+    :return: HttpResponse
+    """
+    u = User.objects.get(username=username)
+    posts = Post.objects.all()
+    context = {
+        'user_blog': u,
+        'post_objects': posts
+    }
+    return render(request, 'blog/author.html', context)
+
+def blogs_view(request, author):
+    """
+    Creo las urls de perfil de usuario/blog
+    :param request: HttpRequest
+    :param author: recupera el autor para mostrar los blogs
+    :return: HttpResponse
+    """
+    author = Post.objects.get(author=author)
+
+    context = {
+        'user_blogs': author
+    }
+    return render(request, 'blog/blogs.html', context)

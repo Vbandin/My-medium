@@ -16,14 +16,16 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from blog.views import posts_list, post_detail, NewPostView
+from blog.views import posts_list, post_detail, NewPostView, author_blog, blogs_view
 from users.views import LoginView, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', posts_list, name="posts_list"),
-    url(r'^post/(?P<post_pk>[0-9]+)$', post_detail, name="post_detail"),
+    url(r'^blogs/username/(?P<post_pk>[0-9]+)$', post_detail, name="post_detail"),
     url(r'^blogs/new-post$', NewPostView.as_view(), name="new_post"),
     url(r'^login$', LoginView.as_view(), name="login"),
-    url(r'^logout$', logout, name="logout")
+    url(r'^logout$', logout, name="logout"),
+    url(r'^blogs/(?P<username>[-\w]+)/$', author_blog, name="author_blog"),
+    url(r'^blogs$', blogs_view, name="blogs_view")
 ]

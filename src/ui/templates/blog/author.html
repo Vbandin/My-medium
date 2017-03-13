@@ -5,7 +5,6 @@
         <thead>
             <tr>
                 <th>Post</th>
-                <th>Author</th>
                 <th>Description</th>
                 <th>Created</th>
             </tr>
@@ -14,11 +13,10 @@
             {% for post in post_objects %}
                 <tr>
                     <td>
-                        <a href="{% url 'post_author' post.author %}" title="View {{ post.title }}">
+                        <a href="{% url 'post_detail' post.pk %}" title="View {{ post.title }}">
                             {{ post.title }}
                         </a>
                     </td>
-                    <td>{{ post.author.first_name }} {{ post.author.last_name }}</td>
                     <td>{{ post.description }}</td>
                     <td>{{ post.created_at }}</td>
                  </tr>

@@ -9,7 +9,9 @@
     <a href="{% url 'post_detail' post.pk %}" title="View {{ post.title }}">
         <img src="{{ post.img_url }}" alt="{{ post.img_description }}">
     </a>
-    <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+    <a href="{% url 'author_blog' post.author %}" title="View {{ post.title }}">
+        <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+    </a>
     <h4>{{ post.created_at }}</h4>
     <p>{{ post.description }}</p>
 

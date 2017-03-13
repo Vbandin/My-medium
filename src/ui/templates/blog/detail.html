@@ -5,7 +5,9 @@
 {% block content %}
     <h1>{{ post.title }}</h1>
     <img src="{{ post.img_url }}" alt="{{ post.img_description }}">
-    <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+    <a href="{% url 'author_blog' post.author %}" title="View {{ post.title }}">
+        <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+    </a>
     <h4>{{ post.created_at }}</h4>
     <h2>{{ post.description }}</h2>
     <p>{{ post.content }}</p>
